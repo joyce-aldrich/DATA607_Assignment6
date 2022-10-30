@@ -1,0 +1,49 @@
+---
+title: "Assignment6"
+author: "Joyce Aldrich"
+date: "2022-10-30"
+output: html_document
+---
+
+Assignment: 
+The New York Times web site provides a rich set of APIs, as described here: https://developer.nytimes.com/apis
+You’ll need to start by signing up for an API key.
+Your task is to choose one of the New York Times APIs, construct an interface in R to read in the JSON data, and
+transform it into an R DataFrame.
+
+```{r}
+library(httr)
+library(jsonlite)
+library(dplyr)
+```
+
+#store url and api key
+```{r}
+url<- "https://api.nytimes.com/svc/movies/v2/reviews/search.json?api-key=HuVC3AH85KUOLicBXhObdKaPA1P6jWzI"
+```
+# get function to retreive data 
+```{r}
+movies <-GET(url)
+```
+#confirm the status
+```{r}
+movies$status_code
+```
+# store the text format of content
+```{r}
+text_content <- content(movies, "text")
+```
+
+# covert to dataframe
+```{r}
+json_content_df <- text_content %>% fromJSON() %>% as.data.frame()
+```
+
+# display the data frame 
+```{r}
+dim(json_content_df)
+head(json_content_df)
+```
+
+
+
